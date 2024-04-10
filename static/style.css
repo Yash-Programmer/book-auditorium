@@ -1,0 +1,160 @@
+body {
+    background-color: #C7B7A3; /* Grey background */
+    font-family: UniversLTPro-55Roman,arial,sans-serif;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+/* Login card container */
+.login-container {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    width: 70rem;
+    height: 40rem;
+    margin: 0 auto;
+}
+
+.login-content {
+    flex: 1.5; /* takes up the remaining space after the image column */
+    padding: 2rem;
+}
+
+.login-header {
+    font-size: 3.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    margin-top: 0;
+    color: #0C3C78; /* Matching the button color */
+}
+
+.input-container {
+    position: relative;
+    margin-top: 20px;
+}
+
+.input-container label {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: top 0.3s, font-size 0.1s, color 0.3s;
+    color: #999;
+    background-color: #fff;
+    padding: 0 0.2rem;
+    pointer-events: none;
+}
+
+.input-container input:focus + label,
+.input-container input:not(:placeholder-shown) + label {
+    top: 0;
+    font-size: 0.9rem;
+    color: hsl(240, 10%, 25%);
+}
+
+.input-container input {
+    width: 100%;  /* Making it responsive to its container width */
+    padding: 10px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px; 
+    font-size: 1.2rem;
+}
+
+.input-container input:focus {
+    border-color: #0C3C78;
+    outline: none;
+    border-width: 3px;
+}
+
+.input-container.email::after {
+    content: "@";
+    position: absolute;
+    right: 10px;   /* Adjusted positioning */
+    top: 50%;
+    transform: translateY(-50%);
+    color: #999;
+    font-size: 1.3rem;
+}
+
+.input-container.password::after {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #999;
+    font-size: 1.3rem;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.input-container .password-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #999;
+    font-size: 1.3rem;
+    cursor: pointer;
+    font-family: "Font Awesome 5 Free";
+}
+
+/* Responsive button */
+button {
+    width: 100%; /* Matches the width of the input fields */
+    padding: 10px;
+    margin-top: 1.5rem;
+    background-color: #0C3C78; /* Same as input:focus border color */
+    border: none;
+    border-radius: 4px;
+    font-size: 1.2rem;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.login-button:hover {
+    background-color: black;
+}
+
+.login-button {
+    width: 49%;
+    margin-right: 0.5rem;
+}
+
+.create-account-button {
+    background-color: #fff;
+    border: 2px solid hsl(341, 100%, 45%);
+    color: hsl(341, 100%, 45%);
+    margin-left: 0.5rem;
+}
+
+.create-account-button:hover {
+    background-color: hsl(341, 100%, 45%);
+    color: #fff;
+}
+
+.buttons-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.login-button, .create-account-button {
+    flex: 1;
+}
+  
+
+.login-container {
+    display: flex; 
+    /* existing styles */
+}
+
+.login-image {
+    flex: 1.5;
+    background: url('https://i.ibb.co/bdN620N/RD8-Pch-JV-4x.jpg') no-repeat center center;
+    background-size: cover;
+}

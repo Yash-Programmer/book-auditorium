@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Seat Booking</title>
+<style>
+    .seat {
+        width: 40px;
+        height: 40px;
+        margin: 5px;
+        border: 1px solid #ccc;
+        display: inline-block;
+        text-align: center;
+        line-height: 40px;
+        cursor: pointer;
+    }
+    .empty {
+        background-color: #eee;
+    }
+    .reserved {
+        background-color: #ff8080;
+    }
+    .marked {
+        background-color: yellow;
+    }
+</style>
+</head>
+<body>
+<h2>Seat Booking</h2>
+<label for="seat-count">Select number of seats:</label>
+<select id="seat-count">
+    <option value="1">1 seat</option>
+    <option value="2">2 seats</option>
+</select>
+<div id="seats-container"></div>
+
+<script>
+    // Function to generate seats
+    function generateSeats(rows, cols) {
+        const container = document.getElementById("seats-container");
+        container.innerHTML = "";
+
+        for (let i = 1; i <= rows; i++) {
+            for (let j = 1; j <= cols; j++) {
+                const seat = document.createElement("div");
+                seat.classList.add("seat", "empty");
+                seat.dataset.row = i;
+                seat.dataset.col = j;
+                seat.textContent = `${i}-${j}`;
+                container.appendChild(seat);
+
+                // Mark and reserve some seats for testing
+                if (i === 5 && j >= 5 && j <= 8) {
+                    seat.classList.add("marked");
+                }
+            }
+            container.appendChild(document.createElement("br"));
+        }
+    }
+
+    // Function to book seats
+    function bookSeats(count) {
+        const seats = document.querySelectorAll(".seat.marked.empty");
+        let seatsToBook = Array.from(seats).slice(0, count);
+
+        seatsToBook.forEach(seat => {
+            seat.classList.remove("empty");
+            seat.classList.add("reserved");
+        });
+    }
+
+    // Event listener for seat count selection
+    document.getElementById("seat-count").addEventListener("change", function() {
+        const count = parseInt(this.value);
+        bookSeats(count);
+    });
+
+    // Event listener for seat selection
+    document.getElementById("seats-container").addEventListener("click", function(event) {
+        const target = event.target;
+        if (target.classList.contains("empty")) {
+            target.classList.toggle("selected");
+        }
+    });
+
+    // Initial generation of seats
+    generateSeats(20, 10);
+</script>
+</body>
+</html>
