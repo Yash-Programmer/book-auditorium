@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path
 from userlog.views import index
 from seats.views import seats, success
-
+from seats import views
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -26,3 +26,8 @@ urlpatterns = [
     path("seats", seats, name="selection"),
     path("success", success, name="submitted"),
 ]
+
+# # Custom 404 error view
+# handler404 = 'views.error_404' 
+# # Custom 500 error view
+# handler500 = 'views.error_500'  

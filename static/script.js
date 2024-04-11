@@ -7,7 +7,7 @@ function takeData()
 {
   
   if (( $("#Username").val().length == 0 ) || ( $("#Numseats").val().length == 0 ))  {
-  alert("Please Enter your Name and Number of Seats correctly");
+  alert("Please Enter your Name and Number of Seats correctly. ");
   } else  {
     if ( $("#Numseats").val() <= 2 && $("#Numseats").val() > 0){
       $(".inputForm *").prop("disabled", true);

@@ -11,10 +11,10 @@
 
 </head>
 <body onload="onLoaderFunc()">
-    <form action="/success" method="get">
+    <form action="/success" method="GET">
     <div class="inputForm">
         <center>
-          Enter Phone: <input name="phone" type="number" id="number" required>&nbsp;&nbsp;&nbsp;&nbsp;
+          Enter Phone: <input name="phone" type="number" id="Username" required>&nbsp;&nbsp;&nbsp;&nbsp;
           Number of Seats: <input name="seats_number" type="number" id="Numseats" required>
           <br/><br/>
           <button type="button" onclick="takeData()">Start Selecting</button>
@@ -242,25 +242,26 @@
         </div>
               
         
-        <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
         <script src="{% static 'script.js' %}"></script>
         <script>
             // Get the checkbox element with value "J3"
-            var checkbox = document.querySelector('input[value="J3"]');
+            {% for seat_no in seat_numbers %}
+            var checkbox = document.querySelector('input[value="{{ seat_no }}"]');
             if (checkbox) {
-                // Disable the checkbox
-                checkbox.disabled = true;
-
-                // Get the pseudo-element style
-                var style = document.createElement('style');
-                style.innerHTML = '.seats[value="J3"]::before { background-color: red; }'; // Set the background color for J3
-                document.head.appendChild(style); // Append the style to the head
-
-                // Prevent default action when clicking the checkbox
-                checkbox.addEventListener('click', function(event) {
-                    event.preventDefault();
-                });
-            }
-        </script>
+                    checkbox.disabled = true;
+                    
+                    // Get the pseudo-element style
+                    var style = document.createElement('style');
+                    style.innerHTML = '.seats[value="{{seat_no}}"]::before { background-color: red; }'; // Set the background color for J3
+                    document.head.appendChild(style); // Append the style to the head
+                    
+                    // Prevent default action when clicking the checkbox
+                    checkbox.addEventListener('click', function(event) {
+                        event.preventDefault();
+                    });
+                }
+                {% endfor %}
+                </script>
 </body>
 </html>

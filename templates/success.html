@@ -24,6 +24,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 .wrapper-1{
   width:100%;
   height:100vh;
+  max-width: 1000px !important;
   display: flex;
 flex-direction: column;
 }
@@ -51,7 +52,7 @@ h1{
   background:#5892FF;
   border:none;
   padding:10px 50px;
-  margin:30px 0;
+  margin:0px 0;
   border-radius:30px;
   text-transform:capitalize;
   box-shadow: 0 10px 16px 1px rgba(174, 199, 251, 1);
@@ -98,23 +99,47 @@ h1{
 }
   
 }
+
+.flex-container {
+  display: flex;
+}
+.flex-item {
+  width: 50%;
+}
     </style>
 </head>
 <body>
     <div class=content>
         <div class="wrapper-1">
-          <div class="wrapper-2">
-            <h1>Booking Confirmed !</h1>
-            <p>Thanks for booking your seat for SHAURYA.  </p>
-            <p>You should receive a confirmation email soon!  </p>
-            <button class="go-home">
-            Back To Home Page
+          <center>
+          <h1>Booking Confirmed !</h1>
+          <button class="go-home">
+            Fill for your second child (if any)
             </button>
+          </center>
+          <div class="flex-container">
+            
+          <div class="wrapper-2 flex-item">
+            <p><b>
+            Name: {{name}}
+            <br>
+            Class: {{class_sec}}
+            <br>
+            Adm no. {{adm_no}}
+            <br>
+            Seats No. {{seat}}
+          </p></b>
           </div>
+          <div class="wrapper-2 flex-item">
+            
+            <p>Your seat for <b>{{ name }}</b> in SHAURYA event is been booked.</p>
+            <p>You should receive a confirmation email soon!  </p>
+            
+          </div>
+           
+        </div>
           <div class="footer-like">
-            <p>Email not received?
-             <a href="#">Click here to send again</a>
-            </p>
+            <p>This entry was done under guidance and observation of the ward, <b>{{ parent }}</b></p>
           </div>
       </div>
       </div>

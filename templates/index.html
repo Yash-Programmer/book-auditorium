@@ -12,8 +12,8 @@
     <link rel="stylesheet" href="{% static 'style.css' %}">
 </head>
 <body>
-{% csrf_token %}
-<form method="get" action="/seats">
+
+<form method="POST" action="/seats">{% csrf_token %}
     <div class="login-container">
         <div class="login-content">
         <h1 class="login-header">Book Your Seat</h1>
