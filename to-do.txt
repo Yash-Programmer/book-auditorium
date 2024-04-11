@@ -1,0 +1,4 @@
+1. Make those seperate pages
+2. Handle 404 and 500
+3. Create Verify for safeguarding
+ - Mark as (RECEIPT KAT GYI)
