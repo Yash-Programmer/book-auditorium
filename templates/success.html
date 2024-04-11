@@ -113,9 +113,11 @@ h1{
         <div class="wrapper-1">
           <center>
           <h1>Booking Confirmed !</h1>
-          <button class="go-home">
-            Fill for your second child (if any)
+          <a href="/">
+            <button style="text-decoration: none; font-family: Arial, Helvetica, sans-serif;"  class="go-home">
+            <b>Fill for your second child (if any)</b>
             </button>
+          </a>
           </center>
           <div class="flex-container">
             
@@ -139,9 +141,14 @@ h1{
            
         </div>
           <div class="footer-like">
-            <p>This entry was done under guidance and observation of the ward, <b>{{ parent }}</b></p>
+            <img width="300" src="{{uri}}" alt=""><hr style=" border: 0;
+            height: 1px;
+            background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 3, 169, 0.75), rgba(0, 0, 0, 0));">
+            <p style="margin-bottom: 2px;">This entry was done under guidance and observation of the ward, <i><b>{{ parent }}</i></b><br>
+             <b> Note: Please save or screenshot this QR code for entry gate check-in.</p></b>
           </div>
       </div>
       </div>
+      
 </body>
 </html>

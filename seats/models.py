@@ -15,6 +15,7 @@ class Slot_1(models.Model):
     seat_1 = models.CharField(max_length=2)
     seat_2 = models.CharField(max_length=2, null=True, blank=True)
     adm_no = models.CharField(max_length=6)
+    # image = models.ImageField(upload_to = 'product-img/', null=True)
 
     def __str__(self):
         return self.adm_no

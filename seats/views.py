@@ -7,6 +7,9 @@ from django.core.mail import send_mail
 from django.conf import settings
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+import qrcode
+import io
+import base64
 
 def extract_username_and_admission_number(email):
     # Regular expression pattern for extracting username and admission number
@@ -129,23 +132,50 @@ def success(request):
     
     print(adm_no + "adm no this")
     dataSet = Entry.objects.get(adm_no=adm_no)
-
+    
     e = Slot_1(seat_1=Seat_no_1, seat_2=Seat_no_2, adm_no=adm_no)
     e.save()
 
+    
+
     if seats_count == 1:
+        
         context = {
-            "seat": Seat_no_1+' '+Seat_no_2, 
+            "seat": Seat_no_1, 
             "adm_no": adm_no,
             "name": dataSet.name,
             "class_sec": dataSet.class_sec,
             "email": dataSet.email,
             "parent": dataSet.parent
         }
+    elif seats_count == 2:
+        semail = dataSet.email
+        context = {
+            "seat": Seat_no_1 + ' & ' + Seat_no_2, 
+            "adm_no": adm_no,
+            "name": dataSet.name,
+            "class_sec": dataSet.class_sec,
+            "email": dataSet.email,
+            "parent": dataSet.parent,
+            "uri": qr_link(dataSet.name, dataSet.parent, dataSet.adm_no, semail)
+        }
 
     mail(dataSet)
     return render(request, 'success.html', context)
 
+def qr_link(name, parent, adm_no, email):
+    qr = qrcode.make(f"http://127.0.0.1:8000?name={name}&parent={parent}&adm_no={adm_no}&email={email}")
+    qr_buffer = io.BytesIO()
+    qr.save(qr_buffer)
+    qr_buffer.seek(0)
+
+    # Encode image as base64 string
+    base64_image = base64.b64encode(qr_buffer.read()).decode()
+
+    # Construct the data URI for the image
+    data_uri = "data:image/png;base64," + base64_image
+    print(data_uri)
+    return data_uri
 def error_404(request, exception):
     return render(request, 'test.html', status=404)
  

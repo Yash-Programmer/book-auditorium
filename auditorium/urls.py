@@ -19,13 +19,16 @@ from django.urls import path
 from userlog.views import index
 from seats.views import seats, success
 from seats import views
+from django.conf import settings
+from django.conf.urls.static import static
+
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", index, name="homepage"),
     path("seats", seats, name="selection"),
     path("success", success, name="submitted"),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # # Custom 404 error view
 # handler404 = 'views.error_404' 
