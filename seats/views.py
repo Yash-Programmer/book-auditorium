@@ -241,59 +241,62 @@ def verify(request):
     seat_count = 0
     seat1 = ""
     seat2 = ""
-    adm_no = request.GET.get("adm_no", "None")
-    entry_instance = Entry.objects.get(adm_no=adm_no)
-    
-    if int(entry_instance.slot) == 1:
-        slot_instance = Slot_1.objects.get(adm_no=adm_no)
-        seat1 = slot_instance.seat_1
-        if str(slot_instance.seat_2) == "None":
-            seat_count = 1
+    try:
+        adm_no = request.GET.get("adm_no", "None")
+        entry_instance = Entry.objects.get(adm_no=adm_no)
+        
+        if int(entry_instance.slot) == 1:
+            slot_instance = Slot_1.objects.get(adm_no=adm_no)
+            seat1 = slot_instance.seat_1
+            if str(slot_instance.seat_2) == "None":
+                seat_count = 1
+            else:
+                seat_count = 2
+                seat2 = slot_instance.seat_2
+        elif int(entry_instance.slot) == 2:
+            slot_instance = Slot_2.objects.get(adm_no=adm_no)
+            seat1 = slot_instance.seat_1
+            if str(slot_instance.seat_2) == "None":
+                seat_count = 1
+            else:
+                seat_count = 2
+                seat2 = slot_instance.seat_2
+        elif int(entry_instance.slot) == 3:
+            slot_instance = Slot_3.objects.get(adm_no=adm_no)
+            seat1 = slot_instance.seat_1
+            if str(slot_instance.seat_2) == "None":
+                seat_count = 1
+            else:
+                seat_count = 2
+                seat2 = slot_instance.seat_2
+        
+        student_hi = EngtoHindi(entry_instance.name)
+        parent_hi = EngtoHindi(entry_instance.parent)
+        
+        if seat_count == 1:
+            context = {
+                "name_en": entry_instance.name,
+                "name_hi": student_hi.convert,
+                "seats": seat1,
+                "slot": entry_instance.slot,
+                "parent_en": entry_instance.parent,
+                "parent_hi": parent_hi.convert,
+            }
+        elif seat_count == 2:
+            context = {
+                "name_en": entry_instance.name,
+                "name_hi": student_hi.convert,
+                "seats": seat1.strip() + " & " + seat2.strip(),
+                "slot": entry_instance.slot,
+                "parent_en": entry_instance.parent,
+                "parent_hi": parent_hi.convert,
+            }
         else:
-            seat_count = 2
-            seat2 = slot_instance.seat_2
-    elif int(entry_instance.slot) == 2:
-        slot_instance = Slot_2.objects.get(adm_no=adm_no)
-        seat1 = slot_instance.seat_1
-        if str(slot_instance.seat_2) == "None":
-            seat_count = 1
-        else:
-            seat_count = 2
-            seat2 = slot_instance.seat_2
-    elif int(entry_instance.slot) == 3:
-        slot_instance = Slot_3.objects.get(adm_no=adm_no)
-        seat1 = slot_instance.seat_1
-        if str(slot_instance.seat_2) == "None":
-            seat_count = 1
-        else:
-            seat_count = 2
-            seat2 = slot_instance.seat_2
-    
-    student_hi = EngtoHindi(entry_instance.name)
-    parent_hi = EngtoHindi(entry_instance.parent)
-    
-    if seat_count == 1:
-        context = {
-            "name_en": entry_instance.name,
-            "name_hi": student_hi.convert,
-            "seats": seat1,
-            "slot": entry_instance.slot,
-            "parent_en": entry_instance.parent,
-            "parent_hi": parent_hi.convert,
-        }
-    elif seat_count == 2:
-        context = {
-            "name_en": entry_instance.name,
-            "name_hi": student_hi.convert,
-            "seats": seat1.strip() + " & " + seat2.strip(),
-            "slot": entry_instance.slot,
-            "parent_en": entry_instance.parent,
-            "parent_hi": parent_hi.convert,
-        }
-    else:
-        return HttpResponse("unverified")
-    return render(request, "verified.html", context)
-    # return render(request, "unverified.html")
+            return render(request, "unverified.html")
+        return render(request, "verified.html", context)
+    except Exception as e:
+        print(e)
+        return render(request, "unverified.html")
 
 def error_404(request, exception):
     return render(request, "test.html", status=404)

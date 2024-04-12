@@ -4,10 +4,79 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <style>
+        @import url(//fonts.cdnfonts.com/css/retroica);
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+
+body, html {
+    height: 100%;
+    
+    display: grid;
+    
+}
+div {
+    font-size: 490%;
+}
+
+body {
+    background: #2C7865;
+    color: white;
+    font-family: "Montserrat", Arial, Helvetica, sans-serif;
+}
+
+.verified {
+    margin: auto;
+}
+
+.material-icons {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 135px;
+    transform: translateY(20px);
+    background: white;
+    border-radius: 90px;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+
+    .material-icons {
+        transform: translateY(10px); /* Adjust icon position for smaller screens */
+    }
+}
+
+
+@media (max-width: 480px) {
+    .verified {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+    }
+
+    .material-icons {/* Adjust icon size for screens with width less than 320px */
+        transform: translateY(0); /* Reset icon position */
+    }
+}
+
+    </style>
 </head>
 <body>
+    
+    <div class="verified"><div class="material-icons" style="color: limegreen">check_circle</div><font color="lightgreen">Ver</font><font color="palegreen">ifi</font>ed</div>
+ 
+    <p style="text-align: justify; margin-left: 5%; font-size: 30px; font-family: 'Courier New', Courier, monospace;">
+        नाम &nbsp;&nbsp;&nbsp;&nbsp;: {{name_hi}}
+        <br>
+        सीट नंबर&nbsp;: {{seats}}
+        <br>
+        समय स्लॉट: {{slot}}
+        <br><br>
+        <b><u>कृपया उन्हें अंदर जाने दें</u></b>
+    </p>
 
-    {{name_en}}
-    {{name_hi}}
 </body>
 </html>
