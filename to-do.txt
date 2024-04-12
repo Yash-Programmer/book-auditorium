@@ -8,3 +8,4 @@
 6. Format HTML email
 7. Add SHAURYA logo to email-id
 8. Styling
+9. Create auto deleting multiple objects

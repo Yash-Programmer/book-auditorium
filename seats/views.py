@@ -10,7 +10,7 @@ from email.mime.text import MIMEText
 import qrcode
 import io
 import base64
-
+from englisttohindi.englisttohindi import EngtoHindi
 
 def extract_username_and_admission_number(email):
     # Regular expression pattern for extracting username and admission number
@@ -64,26 +64,53 @@ def mail(dataSet):
 def seats(request):
     if request.method.lower() == "post":
         context = {}
-
-        seat_reserved = Slot_1.objects.all()
-        # print(seat_reserved[0].adm_no)
-        seat_reserved_list = []
-        for i in range(len(seat_reserved)):
-            seat_reserved_list.append(str(seat_reserved[i].seat_1))
-            x = str(seat_reserved[i].seat_2)
-            if x == "None":
-                pass
-            else:
-                seat_reserved_list.append(str(seat_reserved[i].seat_2))
-
-        print(seat_reserved_list)
-        context["seat_numbers"] = seat_reserved_list
-
         student_name = request.POST.get("student_name", "None")
         email = request.POST.get("user_email", "None")
         adm_no = request.POST.get("adm_no", "None")
         class_sec = request.POST.get("class&sec", "None")
         parent = request.POST.get("parent_name", "None")
+        slot = request.POST.get("slot", "None")
+
+        if int(slot) == 1:
+            seat_reserved = Slot_1.objects.all()
+            # print(seat_reserved[0].adm_no)
+            seat_reserved_list = []
+            for i in range(len(seat_reserved)):
+                seat_reserved_list.append(str(seat_reserved[i].seat_1))
+                x = str(seat_reserved[i].seat_2)
+                if x == "None":
+                    pass
+                else:
+                    seat_reserved_list.append(str(seat_reserved[i].seat_2))
+        elif int(slot) == 2:
+            seat_reserved = Slot_2.objects.all()
+            # print(seat_reserved[0].adm_no)
+            seat_reserved_list = []
+            for i in range(len(seat_reserved)):
+                seat_reserved_list.append(str(seat_reserved[i].seat_1))
+                x = str(seat_reserved[i].seat_2)
+                if x == "None":
+                    pass
+                else:
+                    seat_reserved_list.append(str(seat_reserved[i].seat_2))
+        elif int(slot) == 3:
+            seat_reserved = Slot_3.objects.all()
+            # print(seat_reserved[0].adm_no)
+            seat_reserved_list = []
+            for i in range(len(seat_reserved)):
+                seat_reserved_list.append(str(seat_reserved[i].seat_1))
+                x = str(seat_reserved[i].seat_2)
+                if x == "None":
+                    pass
+                else:
+                    seat_reserved_list.append(str(seat_reserved[i].seat_2))
+        else: 
+            return HttpResponse("Please Select Slot")
+
+        print(seat_reserved_list)
+        context["seat_numbers"] = seat_reserved_list
+
+        
 
         raw_name, admission_number = extract_username_and_admission_number(email)
         username = namify(raw_name)
@@ -108,9 +135,11 @@ def seats(request):
                             adm_no=adm_no,
                             class_sec=class_sec,
                             parent=parent,
+                            slot=slot,
                         )
                         e.save()
                         context["email"] = email
+                        # -
                         return render(request, "seats.html", context)
                 else:
                     return HttpResponse(
@@ -143,18 +172,31 @@ def success(request):
         Seat_no_2 = values[2]
         adm_no = values[4]
 
+    dataSet = Entry.objects.get(adm_no=adm_no)
+
     try:
-        Slot1Set = Slot_1.objects.get(adm_no=adm_no)
-        return HttpResponse("You've Already Responded")
+        if int(dataSet.slot) == 1:
+            Slot1Set = Slot_1.objects.get(adm_no=adm_no)
+            return HttpResponse("You've Already Responded")
+        elif int(dataSet.slot) == 2:
+            Slot1Set = Slot_2.objects.get(adm_no=adm_no)
+            return HttpResponse("You've Already Responded")
+        elif int(dataSet.slot) == 3:
+            Slot1Set = Slot_3.objects.get(adm_no=adm_no)
+            return HttpResponse("You've Already Responded")
     except ObjectDoesNotExist:
         print(adm_no + "adm no this")
-        dataSet = Entry.objects.get(adm_no=adm_no)
-
-        e = Slot_1(seat_1=Seat_no_1, seat_2=Seat_no_2, adm_no=adm_no)
-        e.save()
+        if int(dataSet.slot) == 1:
+            e = Slot_1(seat_1=Seat_no_1, seat_2=Seat_no_2, adm_no=adm_no)
+            e.save()
+        elif int(dataSet.slot) == 2:
+            e = Slot_2(seat_1=Seat_no_1, seat_2=Seat_no_2, adm_no=adm_no)
+            e.save()
+        elif int(dataSet.slot) == 3:
+            e = Slot_3(seat_1=Seat_no_1, seat_2=Seat_no_2, adm_no=adm_no)
+            e.save()
 
         if seats_count == 1:
-
             context = {
                 "seat": Seat_no_1,
                 "adm_no": adm_no,
@@ -162,9 +204,10 @@ def success(request):
                 "class_sec": dataSet.class_sec,
                 "email": dataSet.email,
                 "parent": dataSet.parent,
+                "uri": qr_link(dataSet.adm_no),
+                "slot": dataSet.slot,
             }
         elif seats_count == 2:
-            semail = dataSet.email
             context = {
                 "seat": Seat_no_1 + " & " + Seat_no_2,
                 "adm_no": adm_no,
@@ -172,7 +215,8 @@ def success(request):
                 "class_sec": dataSet.class_sec,
                 "email": dataSet.email,
                 "parent": dataSet.parent,
-                "uri": qr_link(dataSet.name, dataSet.parent, dataSet.adm_no, semail),
+                "uri": qr_link(dataSet.adm_no),
+                "slot": dataSet.slot,
             }
 
         mail(dataSet)
@@ -193,6 +237,63 @@ def qr_link(adm_no):
     print(data_uri)
     return data_uri
 
+def verify(request):
+    seat_count = 0
+    seat1 = ""
+    seat2 = ""
+    adm_no = request.GET.get("adm_no", "None")
+    entry_instance = Entry.objects.get(adm_no=adm_no)
+    
+    if int(entry_instance.slot) == 1:
+        slot_instance = Slot_1.objects.get(adm_no=adm_no)
+        seat1 = slot_instance.seat_1
+        if str(slot_instance.seat_2) == "None":
+            seat_count = 1
+        else:
+            seat_count = 2
+            seat2 = slot_instance.seat_2
+    elif int(entry_instance.slot) == 2:
+        slot_instance = Slot_2.objects.get(adm_no=adm_no)
+        seat1 = slot_instance.seat_1
+        if str(slot_instance.seat_2) == "None":
+            seat_count = 1
+        else:
+            seat_count = 2
+            seat2 = slot_instance.seat_2
+    elif int(entry_instance.slot) == 3:
+        slot_instance = Slot_3.objects.get(adm_no=adm_no)
+        seat1 = slot_instance.seat_1
+        if str(slot_instance.seat_2) == "None":
+            seat_count = 1
+        else:
+            seat_count = 2
+            seat2 = slot_instance.seat_2
+    
+    student_hi = EngtoHindi(entry_instance.name)
+    parent_hi = EngtoHindi(entry_instance.parent)
+    
+    if seat_count == 1:
+        context = {
+            "name_en": entry_instance.name,
+            "name_hi": student_hi.convert,
+            "seats": seat1,
+            "slot": entry_instance.slot,
+            "parent_en": entry_instance.parent,
+            "parent_hi": parent_hi.convert,
+        }
+    elif seat_count == 2:
+        context = {
+            "name_en": entry_instance.name,
+            "name_hi": student_hi.convert,
+            "seats": seat1.strip() + " & " + seat2.strip(),
+            "slot": entry_instance.slot,
+            "parent_en": entry_instance.parent,
+            "parent_hi": parent_hi.convert,
+        }
+    else:
+        return HttpResponse("unverified")
+    return render(request, "verified.html", context)
+    # return render(request, "unverified.html")
 
 def error_404(request, exception):
     return render(request, "test.html", status=404)

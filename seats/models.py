@@ -7,11 +7,30 @@ class Entry(models.Model):
     adm_no = models.CharField(max_length=6)
     class_sec = models.CharField(max_length=1000)
     parent = models.CharField(max_length=1000)
+    slot = models.CharField(max_length=1, null=True, blank=True)
 
     def __str__(self):
         return self.adm_no
 
 class Slot_1(models.Model):
+    seat_1 = models.CharField(max_length=2)
+    seat_2 = models.CharField(max_length=2, null=True, blank=True)
+    adm_no = models.CharField(max_length=6)
+    # image = models.ImageField(upload_to = 'product-img/', null=True)
+
+    def __str__(self):
+        return self.adm_no
+    
+class Slot_2(models.Model):
+    seat_1 = models.CharField(max_length=2)
+    seat_2 = models.CharField(max_length=2, null=True, blank=True)
+    adm_no = models.CharField(max_length=6)
+    # image = models.ImageField(upload_to = 'product-img/', null=True)
+
+    def __str__(self):
+        return self.adm_no
+    
+class Slot_3(models.Model):
     seat_1 = models.CharField(max_length=2)
     seat_2 = models.CharField(max_length=2, null=True, blank=True)
     adm_no = models.CharField(max_length=6)

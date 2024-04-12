@@ -20,29 +20,38 @@
         <p>Welcome! Please enter your credentials.</p>
 
         <div class="input-container name">
-            <input name="student_name" type="name" id="password" placeholder=" ">
+            <input required name="student_name" type="name" id="password" placeholder=" ">
             <label for="name">Name Of The Child</label>
         </div>
 
         <div class="input-container email">
-            <input name="user_email" type="email" id="email" placeholder=" ">
+            <input required name="user_email" type="email" id="email" placeholder=" ">
             <label for="email">School Email Address</label>          
         </div>
         <p><i><b>Note: Please enter your school authorised email address</b></i></p>
 
         <div class="input-container admissionno">
-            <input name="adm_no" type="number" id="admissionno" placeholder=" ">
+            <input required name="adm_no" type="number" id="admissionno" placeholder=" ">
             <label for="admissionno">Admission Number</label>
         </div>
 
         <div class="input-container class">
-            <input name="class&sec" type="class" id="class" placeholder=" ">
+            <input required name="class&sec" type="class" id="class" placeholder=" ">
             <label for="class">Class and Section</label>
         </div>
 
         <div class="input-container parentname">
-            <input name="parent_name" type="parentname" id="parentname" placeholder=" ">
-            <label for="parentname">Name of The Parent Filling This Form</label>
+            <input required name="parent_name" type="text" id="parentname" placeholder=" ">
+            <label for="parentname">Name of The Parent(s) attendees</label>
+        </div>
+
+        <div class="input-container">
+            <label style="position: relative; right: 25px; margin-right: 10px;" for="parentname">Enter Slot</label><br>
+            <select id="cars" name="slot" required >
+                <option value="1">Slot 1 (Timings: 00:00 to 00:00)</option>
+                <option value="2">Slot 2 (Timings: 00:00 to 00:00)</option>
+                <option value="3">Slot 3 (Timings: 00:00 to 00:00)</option>
+              </select>
         </div>
     
         <div class="buttons-container">
