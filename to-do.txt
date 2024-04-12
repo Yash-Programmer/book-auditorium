@@ -1,4 +1,10 @@
-1. Make those seperate pages
+1. Make error pages
 2. Handle 404 and 500
 3. Create Verify for safeguarding
  - Mark as (RECEIPT KAT GYI)
+4. MultipleObjectsReturned Exception
+5. Screen Zoom (Responsive)
+5. Slot (1, 2, 3)
+6. Format HTML email
+7. Add SHAURYA logo to email-id
+8. Styling
