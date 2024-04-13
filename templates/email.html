@@ -1,8 +1,6 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css?family=Kaushan+Script|Source+Sans+Pro" rel="stylesheet">
     <title>Booking Confirmation</title>
     <style>
@@ -109,6 +107,7 @@ h1{
     </style>
 </head>
 <body>
+  <h3>Manual link to qr: <a href="{{uri}}">Click here</a></h3>
     <div class=content>
         <div class="wrapper-1">
           <center>
@@ -123,32 +122,33 @@ h1{
             
           <div class="wrapper-2 flex-item">
             <p><b>
-            Name: {{name}}
+            Name: {name}
             <br>
-            Class: {{class_sec}}
+            Class: {class_sec}
             <br>
-            Adm no. {{adm_no}}
+            Adm no. {adm_no}
             <br>
-            Seats No. {{seat}}
+            Seats No. {seat}
           </p></b>
           </div>
           <div class="wrapper-2 flex-item">
             
-            <p>Your seat for <b>{{ name }}</b> in SHAURYA event is been booked.</p>
+            <p>Your seat for <b>{name}</b> in SHAURYA event is been booked.</p>
             <p>You should receive a confirmation email soon!  </p>
             
           </div>
            
         </div>
           <div class="footer-like">
-            <img width="300" src="{{uri}}" alt=""><hr style=" border: 0;
+            <img width="300" src="{uri}" alt=""><hr style=" border: 0;
             height: 1px;
             background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 3, 169, 0.75), rgba(0, 0, 0, 0));">
-            <p style="margin-bottom: 2px;">This entry was done under guidance and observation of the parent(s), <i><b>{{ parent }}</i></b><br>
+            <p style="margin-bottom: 2px;">This entry was done under guidance and observation of the ward, <i><b>{parent}</i></b><br>
              <b> Note: Please save or screenshot this QR code for entry gate check-in.</p></b>
           </div>
       </div>
       </div>
+      
       
 </body>
 </html>

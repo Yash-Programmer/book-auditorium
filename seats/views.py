@@ -11,6 +11,7 @@ import qrcode
 import io
 import base64
 from englisttohindi.englisttohindi import EngtoHindi
+import requests
 
 def extract_username_and_admission_number(email):
     # Regular expression pattern for extracting username and admission number
@@ -32,36 +33,54 @@ def namify(string):
     return a + b
 
 
-def mail(dataSet):
+def mail(dataSet, context):
     name = dataSet.name
     email = dataSet.email
     adm_no = dataSet.adm_no
     class_sec = dataSet.class_sec
     parent = dataSet.parent
 
-    message = MIMEText(
-        rf"""
-            <html>
-            </html>
-        """,
-        "html",
-    )
-
-    message = "hemlo"
+    message = f"""Name of the student: {name}\nClass and section: {class_sec}\nSeat(s) numbers: {context["seat"]}\nTime Slot: {context["slot"]}\nAdmission No.: {context["adm_no"]}\n   QR code: {context["uri"]}\n\nPlease copy the url and paste it in a new tab for accessing it."""
 
     send_mail(
-        "",  # Subject of the email
+        "Seat Booking Notification! - SHAURYA",  # Subject of the email
         message,  # Body of the email
         "settings.EMAIL_HOST_USER",  # sender
         [email],  # reciever
         fail_silently=False,
     )
 
-    return HttpResponse("wowo")
+def remove_duplicates(model_class, field_name):
+    """
+    Remove duplicates from a model based on a specified field.
+    
+    Args:
+        model_class: The Django model class.
+        field_name: The name of the field to check for duplicates.
+    """
+    # Create a dictionary to keep track of seen values
+    seen_values = defaultdict(list)
 
+    # Iterate through all instances of the model
+    for instance in model_class.objects.all():
+        # Get the value of the specified field for the current instance
+        field_value = getattr(instance, field_name)
+        # Append the instance to the list of seen values for this field value
+        seen_values[field_value].append(instance)
 
+    # Iterate over the seen values
+    for field_value, instances in seen_values.items():
+        # Keep the first instance and delete the rest
+        instances_to_keep = instances[:1]
+        instances_to_delete = instances[1:]
+        for instance in instances_to_delete:
+            instance.delete()
 # Create your views here-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 def seats(request):
+    remove_duplicates(Entry, "adm_no")
+    remove_duplicates(Slot_1, "adm_no")
+    remove_duplicates(Slot_2, "adm_no")
+    remove_duplicates(Slot_3, "adm_no")
     if request.method.lower() == "post":
         context = {}
         student_name = request.POST.get("student_name", "None")
@@ -219,7 +238,7 @@ def success(request):
                 "slot": dataSet.slot,
             }
 
-        mail(dataSet)
+        mail(dataSet, context)
         return render(request, "success.html", context)
 
 
