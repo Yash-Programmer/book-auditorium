@@ -12,6 +12,7 @@ import io
 import base64
 from englisttohindi.englisttohindi import EngtoHindi
 import requests
+from collections import defaultdict
 
 def extract_username_and_admission_number(email):
     # Regular expression pattern for extracting username and admission number
