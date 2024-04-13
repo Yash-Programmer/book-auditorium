@@ -41,7 +41,7 @@ def mail(dataSet, context):
     class_sec = dataSet.class_sec
     parent = dataSet.parent
 
-    message = f"""Name of the student: {name}\nClass and section: {class_sec}\nSeat(s) numbers: {context["seat"]}\nTime Slot: {context["slot"]}\nAdmission No.: {context["adm_no"]}\n   QR code: {context["uri"]}\n\nPlease copy the url and paste it in a new tab for accessing it."""
+    message = f"""Name of the student: {name}\nClass and section: {class_sec}\nSeat(s) numbers: {context["seat"]}\nTime Slot: {context["slot"]}\nAdmission No.: {context["adm_no"]}\nQR code: {context["uri"]}\n\n*Please copy the url and paste it in a new tab for accessing it.*"""
 
     send_mail(
         "Seat Booking Notification! - SHAURYA",  # Subject of the email
@@ -174,8 +174,9 @@ def seats(request):
 def success(request):
 
     text = request.META["QUERY_STRING"]
+    print(len(text))
 
-    if len(text) == 17:
+    if len(text) == 18 or len(text) == 18+1:
         seats_count = 1
         pattern = r"([A-Z]+\d+)=\1&adm_no=(\d+)"
         matches = re.findall(pattern, text)
@@ -183,7 +184,7 @@ def success(request):
         Seat_no_1 = values[0]
         Seat_no_2 = None
         adm_no = values[1]
-    elif len(text) == 23:
+    elif len(text) == 25 or len(text) == 25+2:
         seats_count = 2
         pattern = r"([A-Z]\d+)=(\w+)&([A-Z]\d+)=(\w+)&adm_no=(\d+)"
         matches = re.findall(pattern, text)
