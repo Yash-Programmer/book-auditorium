@@ -32,6 +32,6 @@ urlpatterns = [
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # # Custom 404 error view
-# handler404 = 'views.error_404' 
+handler404 = 'auditorium.views.error_404' 
 # # Custom 500 error view
-# handler500 = 'views.error_500'  
+handler500 = 'auditorium.views.error_500'  

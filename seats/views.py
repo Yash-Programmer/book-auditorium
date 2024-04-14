@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from .models import *
 import re
-from django.http import HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.mail import send_mail
 from django.conf import settings
@@ -11,7 +10,6 @@ import qrcode
 import io
 import base64
 from englisttohindi.englisttohindi import EngtoHindi
-import requests
 from collections import defaultdict
 
 def extract_username_and_admission_number(email):
@@ -125,7 +123,7 @@ def seats(request):
                 else:
                     seat_reserved_list.append(str(seat_reserved[i].seat_2))
         else: 
-            return HttpResponse("Please Select Slot")
+            return render(request, "error.html", status=404, context={"message": "Please select slot!", "1": 4, "2": 0, "3": 4})
 
         print(seat_reserved_list)
         context["seat_numbers"] = seat_reserved_list
@@ -141,13 +139,13 @@ def seats(request):
 
         if admission_number == adm_no:
             if student_name == "None":
-                return HttpResponse("<h1>No values recieved<h1>")
+                return render(request, "error.html", status=404, context={"message": "No Values Receieved", "1": 4, "2": 0, "3": 4})
             else:
                 if extract_username_and_admission_number(email):
                     try:
                         Slot1Set = Slot_1.objects.get(adm_no=admission_number)
                         EntrySet = Entry.objects.get(adm_no=admission_number)
-                        return HttpResponse("You've Already Responded")
+                        return render(request, "error.html", status=404, context={"message": "You've Already Responded", "1": 4, "2": 0, "3": 4})
                     except ObjectDoesNotExist:
                         e = Entry(
                             name=student_name,
@@ -162,13 +160,11 @@ def seats(request):
                         # -
                         return render(request, "seats.html", context)
                 else:
-                    return HttpResponse(
-                        "<h1>Please enter a valid gurukul authorized school email address only.</h1>"
-                    )
+                    return render(request, "error.html", status=404, context={"message": "Please enter a valid gurukul authorized school email address only.", "1": 4, "2": 0, "3": 4})
         else:
-            return HttpResponse("Please enter correct details.")
+            return render(request, "error.html", status=404, context={"message": "Please enter the correct details", "1": 4, "2": 0, "3": 4})
     else:
-        return HttpResponse("Invalid Request")
+        return render(request, "error.html", status=404, context={"message": "Invalid Request", "1": 4, "2": 0, "3": 4})
 
 
 def success(request):
@@ -198,13 +194,13 @@ def success(request):
     try:
         if int(dataSet.slot) == 1:
             Slot1Set = Slot_1.objects.get(adm_no=adm_no)
-            return HttpResponse("You've Already Responded")
+            return render(request, "error.html", status=404, context={"message": "You've Already Responded", "1": 4, "2": 0, "3": 4})
         elif int(dataSet.slot) == 2:
             Slot1Set = Slot_2.objects.get(adm_no=adm_no)
-            return HttpResponse("You've Already Responded")
+            return render(request, "error.html", status=404, context={"message": "You've Already Responded", "1": 4, "2": 0, "3": 4})
         elif int(dataSet.slot) == 3:
             Slot1Set = Slot_3.objects.get(adm_no=adm_no)
-            return HttpResponse("You've Already Responded")
+            return render(request, "error.html", status=404, context={"message": "You've Already Responded", "1": 4, "2": 0, "3": 4})
     except ObjectDoesNotExist:
         print(adm_no + "adm no this")
         if int(dataSet.slot) == 1:
