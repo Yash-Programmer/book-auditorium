@@ -172,7 +172,7 @@ def success(request):
     text = request.META["QUERY_STRING"]
     print(len(text))
 
-    if len(text) == 18 or len(text) == 18+1:
+    if len(text) == 18 or len(text) == 18+1 or len(text)==18-1:
         seats_count = 1
         pattern = r"([A-Z]+\d+)=\1&adm_no=(\d+)"
         matches = re.findall(pattern, text)
@@ -180,7 +180,7 @@ def success(request):
         Seat_no_1 = values[0]
         Seat_no_2 = None
         adm_no = values[1]
-    elif len(text) == 25 or len(text) == 25+2:
+    elif len(text) == 25 or len(text) == 25+2 or len(text)==25-2:
         seats_count = 2
         pattern = r"([A-Z]\d+)=(\w+)&([A-Z]\d+)=(\w+)&adm_no=(\d+)"
         matches = re.findall(pattern, text)
